@@ -6,6 +6,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - MessagingService:ConnectionString=amqp://guest:guest@rabbitmq:5672/
+      - Database:ConnectionString=Server=mssql,1433;Database=StudentsManager;User Id=SA;Password=pa$$w0rd;
     ports:
       - "5001:80"
   processor:
