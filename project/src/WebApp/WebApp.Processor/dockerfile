@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 as base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 as build
+COPY [".", "/build"]
+RUN dotnet publish "/build/src/WebApp/WebApp.Processor/WebApp.Processor.csproj" -c RELEASE -o /app/publish
+
+FROM base as final
+WORKDIR /app
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "WebApp.Processor.dll"]

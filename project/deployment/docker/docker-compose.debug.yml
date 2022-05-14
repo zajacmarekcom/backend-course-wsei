@@ -12,3 +12,6 @@ services:
     environment:
       - DOTNET_ENVIRONMENT=Development
       - MessagingService:ConnectionString=amqp://guest:guest@rabbitmq:5672/
+  mssql:
+    environment:
+      - SA_PASSWORD=pa$$w0rd

@@ -9,6 +9,7 @@ services:
       dockerfile: src/WebApp/WebApp.Api/dockerfile
     depends_on:
       - rabbitmq
+      - mssql
     environment:
       - ASPNETCORE_ENVIRONMENT
       - ASPNETCORE_URLS
@@ -21,6 +22,7 @@ services:
       dockerfile: src/WebApp/WebApp.Processor/dockerfile
     depends_on:
       - rabbitmq
+      - mssql
     environment:
       - ASPNETCORE_ENVIRONMENT
       - MessagingService:ConnectionString
@@ -30,3 +32,12 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+  mssql:
+    container_name: mssql
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    volumes:
+      - ~/apps/mssql/data:/var/lib/mssqlql/data
+    environment:
+      - ACCEPT_EULA=Y
