@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: api
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: ../../
+      dockerfile: src/WebApp/WebApp.Api/dockerfile
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT
+      - ASPNETCORE_URLS
+      - MessagingService:ConnectionString
+  processor:
+    container_name: processor
+    image: ${DOCKER_REGISTRY-}processor
+    build:
+      context: ../../
+      dockerfile: src/WebApp/WebApp.Processor/dockerfile
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT
+      - MessagingService:ConnectionString
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management
+    ports:
+      - "15672:15672"
+      - "5672:5672"

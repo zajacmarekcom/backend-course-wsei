@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - MessagingService:ConnectionString=amqp://guest:guest@rabbitmq:5672/
+    ports:
+      - "5001:80"
+  processor:
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - MessagingService:ConnectionString=amqp://guest:guest@rabbitmq:5672/
